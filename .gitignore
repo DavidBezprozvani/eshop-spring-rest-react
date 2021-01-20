@@ -1,0 +1,6 @@
+.idea/
+HELP.md
+eshop.iml
+target/
+.docker/
+storage/
