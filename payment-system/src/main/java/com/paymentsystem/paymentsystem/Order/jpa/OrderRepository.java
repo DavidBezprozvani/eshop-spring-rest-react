@@ -9,8 +9,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT o.orderNumber FROM Order o ORDER BY o.id DESC")
     long getLastNumber();
 
-    @Query("SELECT new com.paymentsystem.paymentsystem.Order.dto.OrderOverviewDTO(" +
-            "count (o), sum(o.price)) " +
-            "FROM Order o ")
+    @Query("SELECT new com.paymentsystem.paymentsystem.Order.dto(count(o), sum(o.price)) FROM Order o")
     OrderOverviewDTO getOrderOverview();
 }
