@@ -1,8 +1,8 @@
 package com.codeacademy.backend.service;
 
 
-import com.codeacademy.backend.Entity.UploadedFile;
-import com.codeacademy.backend.Repository.UploadedFileRepository;
+import com.codeacademy.backend.entity.UploadedFile;
+import com.codeacademy.backend.repository.UploadedFileRepository;
 import com.codeacademy.backend.exceptions.FileNotFoundException;
 import com.codeacademy.backend.exceptions.FileStorageException;
 import org.springframework.core.io.Resource;

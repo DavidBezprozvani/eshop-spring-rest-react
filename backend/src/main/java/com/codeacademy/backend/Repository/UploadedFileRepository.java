@@ -1,6 +1,6 @@
-package com.codeacademy.backend.Repository;
+package com.codeacademy.backend.repository;
 
-import com.codeacademy.backend.Entity.UploadedFile;
+import com.codeacademy.backend.entity.UploadedFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

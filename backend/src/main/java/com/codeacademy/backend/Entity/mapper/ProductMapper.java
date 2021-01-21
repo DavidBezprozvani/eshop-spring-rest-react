@@ -1,7 +1,7 @@
-package com.codeacademy.backend.Entity.mapper;
+package com.codeacademy.backend.entity.mapper;
 
-import com.codeacademy.backend.Entity.Product;
-import com.codeacademy.backend.Entity.ProductDTO;
+import com.codeacademy.backend.entity.Product;
+import com.codeacademy.backend.entity.ProductDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 

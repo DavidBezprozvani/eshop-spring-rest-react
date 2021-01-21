@@ -1,4 +1,4 @@
-package com.codeacademy.backend.Entity;
+package com.codeacademy.backend.entity;
 
 import lombok.Getter;
 import lombok.Setter;

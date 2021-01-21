@@ -1,7 +1,7 @@
 package com.codeacademy.backend.controller;
 
 
-import com.codeacademy.backend.Entity.ProductDTO;
+import com.codeacademy.backend.entity.ProductDTO;
 import com.codeacademy.backend.service.ProductService;
 import io.swagger.annotations.Api;
 import org.springframework.http.HttpStatus;
