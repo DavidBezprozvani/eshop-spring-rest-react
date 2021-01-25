@@ -1,11 +1,68 @@
 package com.codeacademy.backend.security;
 
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
 public class JwtProvider {
 
-    public String createToken(User user) {
-        return "this.is.myToken";
+    @Value("${security.jwt.secret-key}")
+    private byte[] secret;
 
+    @Value("#{${security.jwt.expire-in-mins} * 60000}")
+    private long validityInMillis;
+
+
+
+    public String createToken(User user) {
+
+        Date now = new Date();
+
+        return Jwts.builder()
+                .signWith(Keys.hmacShaKeyFor(secret), SignatureAlgorithm.HS512)
+                .setHeaderParam("type", "JWT")
+                .setIssuer("eshop-api")
+                .setAudience("eshop-front")
+                .setIssuedAt(now)
+                .setSubject(user.getUsername())
+                .setExpiration(new Date(now.getTime() + validityInMillis))
+                .claim("roles", user.getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.toList()))
+                .compact();
+
+    }
+
+    public Authentication getAuthentication(String jwt) {
+
+        Jwt<?, Claims> parsedJwt = Jwts.parserBuilder()
+                .setSigningKey(secret) // for checking signature validity
+                .build()
+                .parseClaimsJwt(jwt);
+
+        String username = parsedJwt.getBody().getSubject();
+
+        List<GrantedAuthority> roles = ((List<String>) parsedJwt.getBody().get("roles"))
+                .stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+
+        if (StringUtils.isNotEmpty(username)) {
+            return new UsernamePasswordAuthenticationToken(username, null, roles);
+        }
+
+        return null;
     }
 }

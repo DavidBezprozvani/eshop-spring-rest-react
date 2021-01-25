@@ -17,10 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
+import static com.codeacademy.backend.security.SecurityConstants.*;
+
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    public static final String USERNAME = "username";
-    public static final String PASSWORD = "password";
     private JwtProvider jwtProvider;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
@@ -36,8 +36,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
            Map<String, String> credentials =
                    new ObjectMapper().readValue(request.getReader(), new TypeReference<>() {});
 
-           String username = credentials.get(USERNAME);
-           String password = credentials.get(PASSWORD);
+           String username = credentials.get(USERNAME_FIELD);
+           String password = credentials.get(PASSWORD_FIELD);
 
            return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
@@ -54,6 +54,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String jwtToken = jwtProvider.createToken(user);
 
-        response.addHeader("Authorization", "Bearer " + jwtToken);
+        response.addHeader(AUTHORIZATION_HEADER, AUTHORIZATION_HEADER_PREFIX + jwtToken);
     }
 }
