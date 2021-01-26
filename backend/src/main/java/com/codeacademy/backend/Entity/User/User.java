@@ -32,10 +32,7 @@ public class User implements UserDetails {
     @Size(min = 3)
     private String password;
 
-    @Transient
-    private String repeatedPassword;
-
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     @JoinTable(
             name = "User_Roles",

@@ -1,5 +1,6 @@
 package com.codeacademy.backend.security;
 
+import com.codeacademy.backend.entity.User.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -7,7 +8,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -33,23 +33,21 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throws AuthenticationException {
 
         try {
-           Map<String, String> credentials =
-                   new ObjectMapper().readValue(request.getReader(), new TypeReference<>() {});
+            Map<String, String> credentials = new ObjectMapper().readValue(request.getReader(), new TypeReference<>() {
+            });
 
-           String username = credentials.get(USERNAME_FIELD);
-           String password = credentials.get(PASSWORD_FIELD);
+            String username = credentials.get(USERNAME_FIELD);
+            String password = credentials.get(PASSWORD_FIELD);
 
-           return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(username, password));
-
+            return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (Exception e) {
-            throw new BadCredentialsException("Provided structure was incorrect");
+            throw new BadCredentialsException("Provided structure was incorrect.");
         }
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
-
         User user = (User) authResult.getPrincipal();
 
         String jwtToken = jwtProvider.createToken(user);

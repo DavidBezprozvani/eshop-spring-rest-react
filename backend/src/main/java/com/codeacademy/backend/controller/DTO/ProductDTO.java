@@ -1,4 +1,4 @@
-package com.codeacademy.backend.entity;
+package com.codeacademy.backend.controller.DTO;
 
 
 

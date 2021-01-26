@@ -1,5 +1,6 @@
 package com.codeacademy.backend.security;
 
+import com.codeacademy.backend.entity.User.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.apache.commons.lang3.StringUtils;
@@ -8,7 +9,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -32,7 +32,7 @@ public class JwtProvider {
 
         return Jwts.builder()
                 .signWith(Keys.hmacShaKeyFor(secret), SignatureAlgorithm.HS512)
-                .setHeaderParam("type", "JWT")
+                .setHeaderParam("typ", "JWT")
                 .setIssuer("eshop-api")
                 .setAudience("eshop-front")
                 .setIssuedAt(now)
@@ -42,23 +42,23 @@ public class JwtProvider {
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toList()))
                 .compact();
-
     }
 
     public Authentication getAuthentication(String jwt) {
 
-        Jwt<?, Claims> parsedJwt = Jwts.parserBuilder()
+        // parse and validate JWT
+        Jws<Claims> parsedJwt = Jwts.parserBuilder()
                 .setSigningKey(secret) // for checking signature validity
                 .build()
-                .parseClaimsJwt(jwt);
+                .parseClaimsJws(jwt);
 
         String username = parsedJwt.getBody().getSubject();
 
-        List<GrantedAuthority> roles = ((List<String>) parsedJwt.getBody().get("roles"))
-                .stream()
+        List<GrantedAuthority> roles = ((List<String>) parsedJwt.getBody().get("roles")).stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
+        // create Authentication
         if (StringUtils.isNotEmpty(username)) {
             return new UsernamePasswordAuthenticationToken(username, null, roles);
         }
