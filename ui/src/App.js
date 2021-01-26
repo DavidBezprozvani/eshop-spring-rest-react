@@ -4,10 +4,9 @@ import Content from "./components/Content/Content";
 import Footer from "./components/Footer/Footer";
 import "./api"
 import { Provider } from "react-redux";
-import configureStore from "./store";
+import store from "./store";
 import React from "react";
 
-const store = configureStore();
 
 function App() {
     return (

@@ -69,19 +69,20 @@ const Header = ({productCount}) => {
                         <Link variant="button" color="textPrimary" className={classes.link} component={NavLink}
                               to="/about">About</Link>
 
+                        <LangSwitcher/>
+                        <Button color="secondary" variant="outlined" className={classes.link} component={NavLink} to="/login">
+                            Login
+                        </Button>
+
                         <RouterLink to="/cart">
                             <IconButton aria-label="cart">
                                 <Badge badgeContent={productCount} color="secondary">
                                     <ShoppingCartIcon/>
                                 </Badge>
                             </IconButton>
-                            <LangSwitcher/>
                         </RouterLink>
 
                     </nav>
-                    <Button href="#" color="secondary" variant="outlined" className={classes.link}>
-                        Login
-                    </Button>
                 </Toolbar>
             </AppBar>
         </>
