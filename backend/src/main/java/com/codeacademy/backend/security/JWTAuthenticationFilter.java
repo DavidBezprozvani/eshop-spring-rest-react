@@ -1,5 +1,6 @@
 package com.codeacademy.backend.security;
 
+import com.codeacademy.backend.controller.DTO.UserDTO;
 import com.codeacademy.backend.entity.User.User;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,10 +23,13 @@ import static com.codeacademy.backend.security.SecurityConstants.*;
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private JwtProvider jwtProvider;
+    private ObjectMapper objectMapper;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JwtProvider jwtProvider,
+                                   ObjectMapper objectMapper) {
         super(authenticationManager);
         this.jwtProvider = jwtProvider;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -53,5 +57,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String jwtToken = jwtProvider.createToken(user);
 
         response.addHeader(AUTHORIZATION_HEADER, AUTHORIZATION_HEADER_PREFIX + jwtToken);
+
+        UserDTO userDTO = new UserDTO(user);
+
+        objectMapper.writeValue(response.getWriter(), userDTO);
+
     }
 }

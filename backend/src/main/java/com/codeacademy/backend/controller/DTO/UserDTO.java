@@ -2,10 +2,14 @@ package com.codeacademy.backend.controller.DTO;
 
 import com.codeacademy.backend.entity.User.Role;
 import com.codeacademy.backend.entity.User.User;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Getter
+@Setter
 public class UserDTO {
 
     private Long id;
