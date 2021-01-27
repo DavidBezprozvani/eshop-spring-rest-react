@@ -7,9 +7,9 @@ INSERT INTO PRODUCT (name, description, in_stock, price) VALUES
 ('Tacos', 'Tasty very', 7, 10.99),
 ('Tom yum', 'Tasty very', 2, 10.99);
 
-INSERT INTO USER (id, password, username) VALUES
-(1, '{bcrypt}$2y$12$w25k6SFqscT/J0J6bRb/1OEBoMYds/6GVRVfDx7qd9.xGl6zJDmW6', 'admin'),
-(2, '{bcrypt}$2y$12$SkiCRd4l7o96N9vyXYZbqehrbzGXJ8dHeZWkPDK.AxnWzmDQ0uGKi','user');
+INSERT INTO USER (id, name, surname, password, username) VALUES
+(1, 'Ponas', 'Bebras', '{bcrypt}$2y$12$w25k6SFqscT/J0J6bRb/1OEBoMYds/6GVRVfDx7qd9.xGl6zJDmW6', 'admin'),
+(2, 'Useris', 'Pirmasis','{bcrypt}$2y$12$SkiCRd4l7o96N9vyXYZbqehrbzGXJ8dHeZWkPDK.AxnWzmDQ0uGKi','user');
 
 
 INSERT INTO ROLE (id, role_name) VALUES

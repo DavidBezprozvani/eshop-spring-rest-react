@@ -36,7 +36,7 @@ public class PaymentSystemApi {
 
     private RestTemplate getClient() {
         return restTemplateBuilder
-                .rootUri("http://localhost:8081/api")
+                .rootUri("http://localhost:8081")
                 .build();
     }
 }

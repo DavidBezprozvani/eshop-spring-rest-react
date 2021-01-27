@@ -14,11 +14,15 @@ public class UserDTO {
 
     private Long id;
     private String username;
+    private String name;
+    private String surname;
     private Set<String> roles;
 
     public UserDTO(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
+        this.name = user.getName();
+        this.surname = user.getSurname();
         this.roles = user.getRoles().stream()
                 .map(Role::getRoleName)
                 .collect(Collectors.toSet());

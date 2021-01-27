@@ -2,7 +2,6 @@ package com.codeacademy.backend.config;
 
 import com.codeacademy.backend.security.JWTAuthenticationFilter;
 import com.codeacademy.backend.security.JWTAuthorizationFilter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,9 +28,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -47,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtProvider, objectMapper))
+                .addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtProvider))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtProvider));
 
     }
