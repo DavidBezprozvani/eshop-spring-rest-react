@@ -1,9 +1,12 @@
 import {CssBaseline, Badge, Button, AppBar, makeStyles, Toolbar, Typography, IconButton, Link} from "@material-ui/core";
 import {NavLink, Link as RouterLink} from "react-router-dom";
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import {connect} from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import React from "react";
 import LangSwitcher from "./LangSwitcher";
+import {removeJwt, removeUserData} from "../../store/slices/userSlice";
+import useUser from "../../hooks/useUser";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -50,10 +53,16 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }));
-
-const Header = ({productCount}) => {
+const Header = () => {
     const classes = useStyles()
+    const productCount = useSelector(state => state.cart.length)
+    const user = useUser()
+    const dispatch = useDispatch()
 
+    const logout = () => {
+        dispatch(removeJwt())
+        dispatch(removeUserData())
+    }
 
     return (
         <>
@@ -64,15 +73,18 @@ const Header = ({productCount}) => {
                         Eshop
                     </Typography>
                     <nav>
-                        <Link variant="button" color="textPrimary" className={classes.link} component={NavLink}
-                              to="/products">Products</Link>
-                        <Link variant="button" color="textPrimary" className={classes.link} component={NavLink}
-                              to="/about">About</Link>
-
-                        <LangSwitcher/>
-                        <Button color="secondary" variant="outlined" className={classes.link} component={NavLink} to="/login">
-                            Login
-                        </Button>
+                        <Link variant="button" color="textPrimary" className={classes.link} component={NavLink} to="/products">Products</Link>
+                        <Link variant="button" color="textPrimary" className={classes.link} component={NavLink} to="/about">About</Link>
+                        {
+                            !!user ? (
+                                <>
+                                <span>{`Ahoy ${user.name} ${user.surname}!`}</span>
+                                <Button color="textPrimary" color="secondary" className={classes.link} onClick={logout} >Logout</Button>
+                                </>
+                            ) : (
+                            <Button color="secondary" className={classes.link} component={NavLink} to="/login">Login</Button>
+                            )
+                        }
 
                         <RouterLink to="/cart">
                             <IconButton aria-label="cart">
@@ -81,7 +93,7 @@ const Header = ({productCount}) => {
                                 </Badge>
                             </IconButton>
                         </RouterLink>
-
+                        <LangSwitcher/>
                     </nav>
                 </Toolbar>
             </AppBar>
@@ -89,8 +101,4 @@ const Header = ({productCount}) => {
     )
 }
 
-const mapStateToProps = ({cart}) => ({
-    productCount: cart.length
-})
-
-export default connect(mapStateToProps, null)(Header)
+export default Header

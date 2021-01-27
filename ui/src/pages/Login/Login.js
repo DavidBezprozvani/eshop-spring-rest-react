@@ -38,7 +38,6 @@ export default () => {
         >
             {(props) => (
                 <>
-                    <PropsState {...props}/>
                 <Form>
                     <div className="form-group">
                         <label htmlFor="username">Username:</label>
