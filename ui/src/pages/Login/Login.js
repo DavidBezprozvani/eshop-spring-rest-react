@@ -45,9 +45,9 @@ export default () => {
                                id="username"
                                className="form-control"
                                placeholder="Please enter username"/>
-                        {/*<ErrorMessage name="username"*/}
-                        {/*              className="form-text text-danger"*/}
-                        {/*              component="small"/>*/}
+                        <ErrorMessage name="username"
+                                      className="form-text text-danger"
+                                      component="small"/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">Password:</label>
@@ -56,9 +56,9 @@ export default () => {
                                type="password"
                                className="form-control"
                                placeholder="Please enter password"/>
-                        {/*<ErrorMessage name="password"*/}
-                        {/*              className="form-text text-danger"*/}
-                        {/*              component="small"/>*/}
+                        <ErrorMessage name="password"
+                                      className="form-text text-danger"
+                                      component="small"/>
                     </div>
                     <button type="submit" className="btn btn-primary mt-2" disabled={props.isSubmitting}>Login</button>
                 </Form>

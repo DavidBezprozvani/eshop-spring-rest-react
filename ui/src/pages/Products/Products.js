@@ -6,13 +6,15 @@ import ProductsTable from "./ProductsTable";
 import Button from "@material-ui/core/button";
 import { useTranslation } from "react-i18next";
 import Loader from "../Common/Loader";
+import useUser from "../../hooks/useUser";
 
 
 const Products = () => {
 
     const [products, setProducts] = useState([])
     const [isLoading, setIsLoading] = useState(true)
-    const { t } = useTranslation('products');
+    const { t } = useTranslation('products')
+    const user = useUser()
 
 
 
@@ -43,9 +45,13 @@ const Products = () => {
     return (
         <>
             <h1>{t('totalProducts', { total: products.length })}</h1>
-            <Link to="/products/new">
-                <Button variant="outlined" color="secondary" type="button">Create product</Button>
-            </Link>
+            {
+                user?.roles.includes('ADMIN') && (
+                    <Link to="/products/new">
+                        <Button variant="outlined" color="secondary" type="button">Create product</Button>
+                    </Link>
+                )
+            }
 
             {
                 isLoading ?

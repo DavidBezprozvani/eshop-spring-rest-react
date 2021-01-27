@@ -8,6 +8,7 @@ import Cart from "../../pages/Cart/Cart";
 import NotFound from "../../pages/NotFound/NotFound";
 import SingleProduct from "../../pages/Products/SingleProduct";
 import Login from "../../pages/Login/Login";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 export default () => (
     <main className="container">
@@ -15,9 +16,9 @@ export default () => (
             <Route exact path="/">
                 <LandingPage/>
             </Route>
-            <Route path="/products/new">
+            <PrivateRoute path="/products/new" roles={['ADMIN']}>
                 <ProductForm/>
-            </Route>
+            </PrivateRoute>
             <Route path="/products/:id">
                 <SingleProduct/>
             </Route>
@@ -27,9 +28,9 @@ export default () => (
             <Route path="/about">
                 <About/>
             </Route>
-            <Route path="/cart">
+            <PrivateRoute path="/cart">
                 <Cart/>
-            </Route>
+            </PrivateRoute>
             <Route>
                 <Login/>
             </Route>
